@@ -52,6 +52,31 @@ with open('menu.txt', 'r') as f:
 print(file)
 ```
 
+    Flatiron School Cafe Menu
+    
+    
+    Appetizers
+    
+    Nachos - $10
+    Calamari - $12
+    3 Cheese Platter - $8.75
+    
+    Entrees
+    
+    Chicken Sandwich - $16.95
+    A fried chicken sandwich with lettuce, tomato, and mayo. Add cheese for $1.50
+    
+    Flatiron Steak - $22
+    A prime cut of Flatiron Steak, cooked to your liking. Comes with a side of vegetables. Add a salad or cup of soup for $3
+    
+    Garden Salad - $14
+    A salad with stuff from the garden on our roof. 3 types of dressing available.
+    
+    
+    Want to place an order for delivery? Call us at (555) 123-8452!
+    
+
+
 ### Creating a Basic Pattern With Character Classes
 
 We'll start by creating a basic pattern, and then using the `re` library to search through the file for any instances that match this pattern. 
@@ -62,11 +87,33 @@ Run the cell below to find all the digits in the document.
 
 
 ```python
-pattern = '\d'
+pattern = '\d+'
 p = re.compile(pattern)
 digits = p.findall(file)
 digits
 ```
+
+
+
+
+    ['10',
+     '12',
+     '3',
+     '8',
+     '75',
+     '16',
+     '95',
+     '1',
+     '50',
+     '22',
+     '3',
+     '14',
+     '3',
+     '555',
+     '123',
+     '8452']
+
+
 
 It worked, but not in the way we might have expected. This is because the pattern has found every individual number as an individual match. If you look at the order of the numbers and compare it to the menu text above, you notice that they are in the order you'd see if you read them from left to right starting at the top of the menu. 
 
@@ -86,11 +133,18 @@ In the cell below:
 
 
 ```python
-pattern = '\$\d'
+pattern = '\$\d+.*'
 p = re.compile(pattern)
 digits = p.findall(file)
 digits
 ```
+
+
+
+
+    ['$10', '$12', '$8.75', '$16.95', '$1.50', '$22', '$3', '$14']
+
+
 
 That's better, but still not perfect! Now, the pattern only gets the first digit for prices. For instance, the pattern truncates `$10` to `$1`.
 
@@ -103,6 +157,13 @@ p = re.compile(pattern)
 digits = p.findall(file)
 digits
 ```
+
+
+
+
+    ['$8.75', '$16.9', '$1.50']
+
+
 
 This seems to have worked for some, but not all. It also left out any prices have less than 3 characters after the initial match, such as \$10. 
 
